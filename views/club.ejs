@@ -6,6 +6,13 @@
     <title>Document</title>
   </head>
   <body>
+    <% if (locals.errors) {%>
+    <ul>
+      <% errors.forEach(function(error) { %>
+      <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+    <% } %>
     <form action="/club" method="POST">
       <label for="member">member code</label>
       <input type="text" name="member" id="member" placeholder="membercode" />

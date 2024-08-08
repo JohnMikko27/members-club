@@ -43,3 +43,21 @@ exports.postForm = [
         });
     })
 ]
+
+const clubValidation = [
+    body('member').trim().notEmpty().withMessage('please add a code')
+]
+// exports.postClubForm = [
+//     clubValidation,
+//     asyncHandler(async(req, res, next) => {
+//         const errors = validationResult(req)
+//         if (!errors.isEmpty()) {
+//             console.log('errors')
+//             console.log(errors)
+//             return res.render('club', { errors: errors.array()})
+//         }
+//         if (req.body.member === "join") {
+
+//         }
+//     })
+// ]

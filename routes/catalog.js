@@ -10,5 +10,7 @@ router.get('/club', (req, res) => {
 })
 router.get('/signup', (req, res) => res.render('signup'))
 router.post('/signup', userController.postForm)
+router.get('/message', (req, res) =>res.render('messageForm'))
+router.post('/message', userController.postMessageForm);
 
 module.exports = router

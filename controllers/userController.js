@@ -47,17 +47,43 @@ exports.postForm = [
 const clubValidation = [
     body('member').trim().notEmpty().withMessage('please add a code')
 ]
-// exports.postClubForm = [
-//     clubValidation,
-//     asyncHandler(async(req, res, next) => {
-//         const errors = validationResult(req)
-//         if (!errors.isEmpty()) {
-//             console.log('errors')
-//             console.log(errors)
-//             return res.render('club', { errors: errors.array()})
-//         }
-//         if (req.body.member === "join") {
+exports.postClubForm = [
+    clubValidation,
+    asyncHandler(async(req, res, next) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            console.log('errors')
+            console.log(errors)
+            return res.render('club', { errors: errors.array()})
+        }
+        if (req.body.member === "join") {
+            await pool.query('UPDATE users SET ismember=true WHERE id=$1',[req.user.id])
+        }
+    })
+]
 
-//         }
-//     })
-// ]
+exports.postMessageForm = [
+    body('title').trim().notEmpty().withMessage('should not be empty'),
+    body('message').trim().notEmpty().withMessage('should not be empty'),
+    asyncHandler(async(req, res, next) => {
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            console.log('errors')
+            console.log(errors)
+            return res.render('messageForm', { errors: errors.array()})
+        }
+
+        await pool.query("INSERT INTO messages (title, time, message, user_id) VALUES ($1, $2, $3, $4)", [
+            req.body.title,
+            new Date(),
+            req.body.message,
+            req.user.id
+        ])
+        console.log(req.body.title,
+            new Date(),
+            req.body.message,
+            req.user.id)
+        res.redirect('/')
+    })
+]

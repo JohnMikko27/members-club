@@ -58,7 +58,9 @@ exports.postClubForm = [
         }
         if (req.body.member === "join") {
             await pool.query('UPDATE users SET ismember=true WHERE id=$1',[req.user.id])
+            return res.redirect('/')
         }
+        return res.render('club', { errors: [{msg: "wrong code"}]});
     })
 ]
 
@@ -87,3 +89,9 @@ exports.postMessageForm = [
         res.redirect('/')
     })
 ]
+
+exports.deleteMessage = asyncHandler(async(req, res, next) => {
+    if (!(req.user.isadmin === true)) res.send('forbidden')
+    await pool.query('DELETE FROM messages WHERE message_id = $1', [req.params.id])
+    res.redirect('/')
+}) 

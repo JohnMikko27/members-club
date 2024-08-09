@@ -7,8 +7,9 @@
   </head>
   <body>
     <div>hi lol</div>
-    <% if (locals.user) { %>
+    <% if (locals.user && !locals.ismember) { %>
     <a href="/club">become a member of club</a>
+    <% } %> <% if (locals.user) { %>
     <a href="/message">create message</a>
     <% } else { %>
     <a href="/signup">signup</a>
@@ -19,6 +20,10 @@
     <p>message: <%=message.message%></p>
     <% if (locals.ismember) { %>
     <p>username: <%=message.username%></p>
-    <% } %> <% }) %>
+    <% } %> <% %> <% if (user && user.isadmin) { %>
+    <a href="/delete/<%=message.message_id%>">delete</a>
+    <% } %> <% }) %> <% if (locals.user) { %>
+    <a href="/logout">logout</a>
+    <% } %>
   </body>
 </html>
